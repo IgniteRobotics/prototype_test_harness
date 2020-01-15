@@ -12,6 +12,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.motor1;
+import frc.robot.subsystems.motor2;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,17 +28,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
+  private motor1 motor1_ = new motor1();
+  private motor2 motor2_ = new motor2();
+  double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
+  double power1 = SmartDashboard.getNumber("percent_Power_1", 0);
+  boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
+  double Velocity2 = SmartDashboard.getNumber("velocity_2", 0);
+  double power2 = SmartDashboard.getNumber("percent_Power_2", 0);
+  boolean toggle2 = SmartDashboard.getBoolean("toggle_2", true);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    motor1_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> motor1_.setVelocity(Velocity1), motor1_),new InstantCommand(() -> motor1_.setpower(power1), motor1_), () -> toggle1));
+    motor2_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> motor2_.setVelocity(Velocity1), motor2_),new InstantCommand(() -> motor2_.setpower(power1), motor2_), () -> toggle2));
+
   }
 
   /**

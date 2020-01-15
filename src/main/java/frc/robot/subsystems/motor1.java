@@ -57,5 +57,12 @@ public class motor1 extends SubsystemBase {
   public void setVelocity(double Velocity){
 
     motor.set(ControlMode.Velocity, Velocity);
+    
+
+
+  }
+  public void setpower(double power){
+
+    motor.set(ControlMode.PercentOutput, power);
   }
 }

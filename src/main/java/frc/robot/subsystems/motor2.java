@@ -53,4 +53,12 @@ public class motor2 extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  public void setVelocity(double Velocity){
+
+    motor.set(ControlMode.Velocity, Velocity);
+  }
+  public void setpower(double power){
+
+    motor.set(ControlMode.PercentOutput, power);
+  }
 }
