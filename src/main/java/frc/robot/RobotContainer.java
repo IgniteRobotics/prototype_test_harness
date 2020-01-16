@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.powerSet1;
+import frc.robot.commands.powerSet2;
+import frc.robot.commands.velocitySet1;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -17,7 +20,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.motor1;
 import frc.robot.subsystems.motor2;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import frc.robot.commands.velocitySet1;
+import frc.robot.commands.velocitySet2;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -33,6 +38,10 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private motor1 motor1_ = new motor1();
   private motor2 motor2_ = new motor2();
+  private final velocitySet1 velocitySet1_ = new velocitySet1(motor1_);
+  private final velocitySet2 velocitySet2_ = new velocitySet2(motor1_);
+  private final powerSet2 powerSet2_ = new powerSet2(motor1_);
+  private final powerSet1 powerSet1_ = new powerSet1(motor1_);
   double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
   double power1 = SmartDashboard.getNumber("percent_Power_1", 0);
   boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
@@ -45,9 +54,11 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    motor1_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> motor1_.setVelocity(Velocity1), motor1_),new InstantCommand(() -> motor1_.setpower(power1), motor1_), () -> toggle1));
-    motor2_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> motor2_.setVelocity(Velocity1), motor2_),new InstantCommand(() -> motor2_.setpower(power1), motor2_), () -> toggle2));
 
+    //motor1_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> velocitySet1_, motor1_),new InstantCommand(() -> powerSet1, motor1_), () -> toggle1));
+    motor1_.setDefaultCommand(new ConditionalCommand(velocitySet1_,powerSet1_, () -> toggle2));
+    motor2_.setDefaultCommand(new ConditionalCommand(velocitySet2_,powerSet2_, () -> toggle2));
+                                 
   }
 
   /**
