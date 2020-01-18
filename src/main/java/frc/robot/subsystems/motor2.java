@@ -19,7 +19,7 @@ public class motor2 extends SubsystemBase {
    * Creates a new motor1.
    */
   public motor2() {
-    motor = new WPI_TalonSRX(1);
+    motor = new WPI_TalonSRX(10);
     motor.configFactoryDefault();
     int kSlotIdx = 0;
     int kPIDLoopIdx = 0;
@@ -61,4 +61,40 @@ public class motor2 extends SubsystemBase {
 
     motor.set(ControlMode.PercentOutput, power);
   }
+  public void configuration(){
+    int kSlotIdx = 0;
+    int kPIDLoopIdx = 0;
+    int kTimeoutMs = 30;
+    double kP = .25;
+    double kI = 0;
+    double kD = 0;
+    double kF = 1023.0/7200.0;
+
+
+    /* Config sensor used for Primary PID [Velocity] */
+    motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,kPIDLoopIdx, kTimeoutMs);
+    
+    
+    
+		/* Config the peak and nominal outputs */
+		motor.configNominalOutputForward(0, kTimeoutMs);
+		motor.configNominalOutputReverse(0, kTimeoutMs);
+		motor.configPeakOutputForward(1, kTimeoutMs);
+    motor.configPeakOutputReverse(-1, kTimeoutMs);
+
+    
+		/* Config the Velocity closed loop gains in slot0 */
+		motor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
+	  motor.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+		motor.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
+    motor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
+  }
+
+  public void defaultConfig(){
+    motor.configFactoryDefault();
+  }
+  
+  public int getvelocity(){
+    return(motor.getSelectedSensorVelocity());
+   }
 }

@@ -19,8 +19,31 @@ public class motor1 extends SubsystemBase {
    * Creates a new motor1.
    */
   public motor1() {
-    motor = new WPI_TalonSRX(0);
+    motor = new WPI_TalonSRX(8);
     motor.configFactoryDefault();
+
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  public void setVelocity(double Velocity){
+
+    motor.set(ControlMode.Velocity, Velocity);
+    
+
+
+  }
+  public void setpower(double power){
+
+    motor.set(ControlMode.PercentOutput, power);
+
+  }
+  
+
+  public void configuration(){
     int kSlotIdx = 0;
     int kPIDLoopIdx = 0;
     int kTimeoutMs = 30;
@@ -49,20 +72,11 @@ public class motor1 extends SubsystemBase {
     motor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void defaultConfig(){
+    motor.configFactoryDefault();
   }
 
-  public void setVelocity(double Velocity){
-
-    motor.set(ControlMode.Velocity, Velocity);
-    
-
-
-  }
-  public void setpower(double power){
-
-    motor.set(ControlMode.PercentOutput, power);
+  public int getvelocity(){
+   return(motor.getSelectedSensorVelocity());
   }
 }

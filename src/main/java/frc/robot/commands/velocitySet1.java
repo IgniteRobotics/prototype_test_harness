@@ -10,17 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.motor1;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class velocitySet1 extends CommandBase {
 
   private final motor1 m_motor1;
-  double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
-  double power1 = SmartDashboard.getNumber("percent_Power_1", 0);
-  boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
-  double Velocity2 = SmartDashboard.getNumber("velocity_2", 0);
-  double power2 = SmartDashboard.getNumber("percent_Power_2", 0);
-  boolean toggle2 = SmartDashboard.getBoolean("toggle_2", true);
+  NetworkTableEntry toggle1  = (Shuffleboard.getTab("SmartDashboard").add("toggle1", true).withWidget("Toggle Button").getEntry());
   /**
    * Creates a new velocitySet.
    */
@@ -33,14 +29,26 @@ public class velocitySet1 extends CommandBase {
 
   @Override
   public void initialize() {
-    
+    SmartDashboard.putNumber("velocity_1", 0);
+    SmartDashboard.putNumber("power_1", 0);
   }
   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
-    m_motor1.setVelocity(Velocity1);
+    double Velocity = SmartDashboard.getNumber("velocity_1", 0);
+    double power = SmartDashboard.getNumber("power_1", 0);
+    boolean toggle_1 = toggle1.getBoolean(true);
+    if (toggle_1){
+      m_motor1.configuration();
+      m_motor1.setVelocity(Velocity);
+    }
+    else{
+      m_motor1.defaultConfig();
+      m_motor1.setpower(power);
+    }
+    SmartDashboard.putNumber("velocity", m_motor1.getvelocity());
+    System.out.println(m_motor1.getvelocity());
     
   }
   // Called when the command is initially scheduled.
@@ -56,6 +64,6 @@ public class velocitySet1 extends CommandBase {
   
     
 
-    return true;
+    return false;
   }
 }

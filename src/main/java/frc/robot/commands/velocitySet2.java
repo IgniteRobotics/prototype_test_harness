@@ -8,40 +8,48 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.motor1;
+import frc.robot.subsystems.motor2;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class velocitySet2 extends CommandBase {
 
-  private final motor1 m_motor1;
-  double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
-  double power1 = SmartDashboard.getNumber("percent_Power_1", 0);
-  boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
-  double Velocity2 = SmartDashboard.getNumber("velocity_2", 0);
-  double power2 = SmartDashboard.getNumber("percent_Power_2", 0);
-  boolean toggle2 = SmartDashboard.getBoolean("toggle_2", true);
+  private final motor2 m_motor2;
+  NetworkTableEntry toggle2  = (Shuffleboard.getTab("SmartDashboard").add("toggle2", true).withWidget("Toggle Button").getEntry());
+  //boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
   /**
    * Creates a new velocitySet.
    */
-  public velocitySet2( motor1 motor1_) {
-  m_motor1 = motor1_;
-  addRequirements(motor1_);
-
+  public velocitySet2( motor2 motor2_) {
+  m_motor2 = motor2_;
+  addRequirements(motor2_);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   @Override
   public void initialize() {
+    SmartDashboard.putNumber("Power_2", 0);
+    SmartDashboard.putNumber("velocity_2", 0);
     
   }
   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
-    m_motor1.setVelocity(Velocity1);
+    double Velocity = SmartDashboard.getNumber("velocity_2", 0);
+    double power = SmartDashboard.getNumber("power_2", 0);
+    boolean toggle_2 = toggle2.getBoolean(true);
+    if (toggle_2){
+      m_motor2.configuration();
+      m_motor2.setVelocity(Velocity);
+    }
+    else{ 
+      m_motor2.defaultConfig();
+      m_motor2.setpower(power);
+    }
 
+    
   }
   // Called when the command is initially scheduled.
   
@@ -56,6 +64,6 @@ public class velocitySet2 extends CommandBase {
   
     
 
-    return true;
+    return false;
   }
 }

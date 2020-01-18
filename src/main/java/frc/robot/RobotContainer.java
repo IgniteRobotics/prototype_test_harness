@@ -10,8 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.powerSet1;
-import frc.robot.commands.powerSet2;
 import frc.robot.commands.velocitySet1;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,15 +37,7 @@ public class RobotContainer {
   private motor1 motor1_ = new motor1();
   private motor2 motor2_ = new motor2();
   private final velocitySet1 velocitySet1_ = new velocitySet1(motor1_);
-  private final velocitySet2 velocitySet2_ = new velocitySet2(motor1_);
-  private final powerSet2 powerSet2_ = new powerSet2(motor1_);
-  private final powerSet1 powerSet1_ = new powerSet1(motor1_);
-  double Velocity1 = SmartDashboard.getNumber("velocity_1", 0);
-  double power1 = SmartDashboard.getNumber("percent_Power_1", 0);
-  boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
-  double Velocity2 = SmartDashboard.getNumber("velocity_2", 0);
-  double power2 = SmartDashboard.getNumber("percent_Power_2", 0);
-  boolean toggle2 = SmartDashboard.getBoolean("toggle_2", true);
+  private final velocitySet2 velocitySet2_ = new velocitySet2(motor2_);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -56,8 +46,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     //motor1_.setDefaultCommand(new ConditionalCommand(new InstantCommand(() -> velocitySet1_, motor1_),new InstantCommand(() -> powerSet1, motor1_), () -> toggle1));
-    motor1_.setDefaultCommand(new ConditionalCommand(velocitySet1_,powerSet1_, () -> toggle2));
-    motor2_.setDefaultCommand(new ConditionalCommand(velocitySet2_,powerSet2_, () -> toggle2));
+    motor1_.setDefaultCommand(velocitySet1_);
+    motor2_.setDefaultCommand(velocitySet2_);
                                  
   }
 
