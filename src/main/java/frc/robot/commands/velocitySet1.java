@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 public class velocitySet1 extends CommandBase {
 
   private final motor1 m_motor1;
-  NetworkTableEntry toggle1  = (Shuffleboard.getTab("SmartDashboard").add("toggle1", true).withWidget("Toggle Button").getEntry());
+  NetworkTableEntry toggle1  = (Shuffleboard.getTab("Toggleboard").add("velocitytoggle1", true).withWidget("Toggle Button").getEntry());
   /**
    * Creates a new velocitySet.
    */
@@ -47,7 +47,7 @@ public class velocitySet1 extends CommandBase {
       m_motor1.defaultConfig();
       m_motor1.setpower(power);
     }
-    SmartDashboard.putNumber("velocity", m_motor1.getvelocity());
+    SmartDashboard.putNumber("velocity1", m_motor1.getvelocity());
     System.out.println(m_motor1.getvelocity());
     
   }

@@ -10,28 +10,27 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.motor2;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class velocitySet2 extends CommandBase {
 
   private final motor2 m_motor2;
-  NetworkTableEntry toggle2  = (Shuffleboard.getTab("SmartDashboard").add("toggle2", true).withWidget("Toggle Button").getEntry());
-  //boolean toggle1 = SmartDashboard.getBoolean("toggle_1", true);
+  NetworkTableEntry toggle2  = (Shuffleboard.getTab("Toggleboard").add("velocitytoggle2", true).withWidget("Toggle Button").getEntry());
   /**
    * Creates a new velocitySet.
    */
   public velocitySet2( motor2 motor2_) {
   m_motor2 = motor2_;
   addRequirements(motor2_);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("Power_2", 0);
     SmartDashboard.putNumber("velocity_2", 0);
-    
+    SmartDashboard.putNumber("power_2", 0);
   }
   
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,11 +43,12 @@ public class velocitySet2 extends CommandBase {
       m_motor2.configuration();
       m_motor2.setVelocity(Velocity);
     }
-    else{ 
+    else{
       m_motor2.defaultConfig();
       m_motor2.setpower(power);
     }
-
+    SmartDashboard.putNumber("velocity2", m_motor2.getvelocity());
+    System.out.println(m_motor2.getvelocity());
     
   }
   // Called when the command is initially scheduled.

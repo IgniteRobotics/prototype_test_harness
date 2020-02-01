@@ -7,20 +7,34 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.VelocityPeriod;
 import com.ctre.phoenix.motorcontrol.*;
+import frc.robot.RobotContainer;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class motor1 extends SubsystemBase {
   
   private WPI_TalonSRX motor;
+  private WPI_VictorSPX follow1;
+  private WPI_VictorSPX follow2;
   /**
    * Creates a new motor1.
    */
   public motor1() {
-    motor = new WPI_TalonSRX(8);
+    int canid = (int) SmartDashboard.getNumber("canid1", 8);
+    motor = new WPI_TalonSRX(1);//8
+    follow1 = new WPI_VictorSPX(3);
+    //follow2 = new WPI_VictorSPX(5);
     motor.configFactoryDefault();
+    motor.setNeutralMode(NeutralMode.Coast);
+    follow1.follow(motor);
+    follow1.setNeutralMode(NeutralMode.Coast);
+    follow1.setInverted(true);
+    //follow2.follow(motor);
+    //follow2.setNeutralMode(NeutralMode.Coast);
 
   }
 
@@ -46,7 +60,7 @@ public class motor1 extends SubsystemBase {
   public void configuration(){
     int kSlotIdx = 0;
     int kPIDLoopIdx = 0;
-    int kTimeoutMs = 30;
+    int kTimeoutMs = 30;  
     double kP = .25;
     double kI = 0;
     double kD = 0;
@@ -74,9 +88,15 @@ public class motor1 extends SubsystemBase {
 
   public void defaultConfig(){
     motor.configFactoryDefault();
+        
+    motor.setNeutralMode(NeutralMode.Coast);
+    follow1.setNeutralMode(NeutralMode.Coast);
+    follow1.setInverted(true);
+    //follow2.setNeutralMode(NeutralMode.Coast);
   }
 
   public int getvelocity(){
    return(motor.getSelectedSensorVelocity());
   }
+
 }
